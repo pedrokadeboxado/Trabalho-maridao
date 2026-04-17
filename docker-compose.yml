@@ -1,17 +1,71 @@
+version: "3.9"
+
 services:
+
   postgres_local:
-    image: postgres:15-alpine
-    container_name: gb_one_postgres_local
+    image: postgres:15
+    container_name: postgres_local
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    ports: 
-      - "${POSTGRES_PORT}:5432"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: projeto
+    ports:
+      - "5432:5432"
     volumes:
       - postgres_local_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U gb_one -d gb_one_local"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+
+volumes:
+  postgres_local_data:
+
+#================================================================================================
+#DEBOCHADO-BACKEND
+#=============================================================================================
+
+  backend:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    networks:
+       -maridao_network
+    build:
+      context: ./maridao
+      dockerfile: Dockerfile
+    container_name: maridao_backend
+     environment
+  DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD:-postgres}@postgres_local:5432/${POSTGRES_DB:-projeto}
+  ports:
+      - "${BACKEND_PORT}:3000"
+  depends_on:
+      - postgres_local  
+  condition: service_healthy
+  redis:
+    condition: service_healthy
+    command: uvicorn app.main:app --host 0.0.0.0 --port 3000 
+    restart: unless-stopped
+
+    #====================================================================================================
+    #DEBOCHADO-FORNTEND
+    #====================================================================================================
+
+    frotnend:
+    build:
+      context: ./frontend_maridao-frontend
+      dockerfile: Dockerfile
+    container_name: frontend_maridao_frontend
+    ports:
+      - "5174:5174"
+    depends_on:
+      - backend
+    networks:
+      - maridao_network
+        
+networks:
+  maridao_network: 
+  driver: bridge
+  enable_ipv6: false
+  ipam:
+  config:
+    - subnet: 172.20.0.0/16
+  gateway: 172.20.0.1
