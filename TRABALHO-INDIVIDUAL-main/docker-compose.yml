@@ -22,11 +22,11 @@ services:
 
   backend:
     build:
-      context: ./TRABALHO-INDIVIDUAL-main/back_projeto
-      dockerfile: dockerfile
+      context: ./back_projeto
+      dockerfile: Dockerfile
     container_name: maridao_backend
     environment:
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/projeto
+      DATABASE_URL: "postgres://postgres:postgres@postgres:5432/projeto"
     ports:
       - "3000:3000"
     depends_on:
@@ -37,7 +37,7 @@ services:
 
   frontend:
     build:
-      context: ./TRABALHO-INDIVIDUAL-main/front_projeto
+      context: ./front_projeto
       dockerfile: Dockerfile
     container_name: frontend_maridao_frontend
     ports:
