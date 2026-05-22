@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config  # <- Garanta que tem exatamente DOIS espaços antes de 'name'
+data:               # <- Lembra de deixar 'data' sem o 's' e alinhado na raiz
+  DB_HOST: "postgres"
+  DB_PORT: "5432"
+  NODE_ENV: "Deployment"
+  API_URL: "https://backend-service:3000"
