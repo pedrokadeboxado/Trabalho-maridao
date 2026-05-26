@@ -39,6 +39,53 @@ html, body, #root {
   align-items: center;
 }
 
+/* ===== HEADER TOP ===== */
+.header-top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.header-content {
+  flex: 1;
+  text-align: center;
+  min-width: 300px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.username {
+  color: #585b5c;
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.btn-logout {
+  padding: 10px 20px !important;
+  width: auto !important;
+  background: linear-gradient(135deg, #fefeff 0%, #764ba2 100%) !important;
+  color: white !important;
+  font-size: 0.9em !important;
+  border-radius: 8px !important;
+  margin-top: 0 !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
+}
+
+.btn-logout:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6) !important;
+}
+
 /* ===== TÍTULOS ===== */
 h1 {
   color: #585b5c;
