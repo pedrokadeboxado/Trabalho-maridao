@@ -1,0 +1,254 @@
+{
+  "v": 3,
+  "name": "API Projeto Trabalho Individual",
+  "folders": [
+    {
+      "v": 3,
+      "name": "Health Check",
+      "requests": [
+        {
+          "v": 3,
+          "name": "Get Hello - Root Endpoint",
+          "method": "GET",
+          "url": "http://localhost:3000/",
+          "headers": [],
+          "params": [],
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "auth": null,
+          "testScript": "test(\"Status code is 200\", () => {\n  expect(pw.response.statusCode).toBe(200);\n});\n\ntest(\"Response body is not empty\", () => {\n  expect(pw.response.body).toBeDefined();\n});",
+          "preRequestScript": null,
+          "tabs": []
+        }
+      ]
+    },
+    {
+      "v": 3,
+      "name": "Authentication",
+      "requests": [
+        {
+          "v": 3,
+          "name": "Login - Valid Credentials",
+          "method": "POST",
+          "url": "http://localhost:3000/login",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "params": [],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"usuario\": \"admin\",\n  \"senha\": \"123456\"\n}"
+          },
+          "auth": null,
+          "testScript": "test(\"Status code is 200\", () => {\n  expect(pw.response.statusCode).toBe(200);\n});\n\ntest(\"Response contains 'Login aprovado'\", () => {\n  expect(pw.response.body).toContain(\"Login aprovado\");\n});",
+          "preRequestScript": null,
+          "tabs": []
+        },
+        {
+          "v": 3,
+          "name": "Login - Invalid Credentials",
+          "method": "POST",
+          "url": "http://localhost:3000/login",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "params": [],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"usuario\": \"usuario_invalido\",\n  \"senha\": \"senha_errada\"\n}"
+          },
+          "auth": null,
+          "testScript": "test(\"Status code is 401 or 400\", () => {\n  expect([400, 401]).toContain(pw.response.statusCode);\n});\n\ntest(\"Response indicates error\", () => {\n  expect(pw.response.body).toBeDefined();\n});",
+          "preRequestScript": null,
+          "tabs": []
+        },
+        {
+          "v": 3,
+          "name": "Login - Empty Credentials",
+          "method": "POST",
+          "url": "http://localhost:3000/login",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "params": [],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"usuario\": \"\",\n  \"senha\": \"\"\n}"
+          },
+          "auth": null,
+          "testScript": "test(\"Request should fail with empty credentials\", () => {\n  expect([400, 401, 500]).toContain(pw.response.statusCode);\n});",
+          "preRequestScript": null,
+          "tabs": []
+        }
+      ]
+    },
+    {
+      "v": 3,
+      "name": "Professional Registration",
+      "requests": [
+        {
+          "v": 3,
+          "name": "Cadastro - Profissional Válido",
+          "method": "POST",
+          "url": "http://localhost:3000/profissional",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "params": [],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"nome\": \"João Silva\",\n  \"idade\": 28,\n  \"profissao\": \"Desenvolvedor\"\n}"
+          },
+          "auth": null,
+          "testScript": "test(\"Status code is 201 or 200\", () => {\n  expect([200, 201]).toContain(pw.response.statusCode);\n});\n\ntest(\"Response contains profissional data\", () => {\n  const body = JSON.parse(pw.response.body);\n  expect(body.nome).toBe(\"João Silva\");\n  expect(body.profissao).toBe(\"Desenvolvedor\");\n  expect(body.status).toBe(\"ativo\");\n});",
+          "preRequestScript": null,
+          "tabs": []
+        },
+        {
+          "v": 3,
+          "name": "Cadastro - Nome Inválido (muito curto)",
+          "method": "POST",
+          "url": "http://localhost:3000/profissional",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "params": [],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"nome\": \"AB\",\n  \"idade\": 25,\n  \"profissao\": \"Engenheiro\"\n}"
+          },
+          "auth": null,
+          "testScript": "test(\"Should reject name with less than 3 characters\", () => {\n  expect([400, 422]).toContain(pw.response.statusCode);\n});",
+          "preRequestScript": null,
+          "tabs": []
+        },
+        {
+          "v": 3,
+          "name": "Cadastro - Idade Inválida (menor que 18)",
+          "method": "POST",
+          "url": "http://localhost:3000/profissional",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "params": [],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"nome\": \"Maria Santos\",\n  \"idade\": 16,\n  \"profissao\": \"Médica\"\n}"
+          },
+          "auth": null,
+          "testScript": "test(\"Should reject age less than 18\", () => {\n  expect([400, 422]).toContain(pw.response.statusCode);\n});",
+          "preRequestScript": null,
+          "tabs": []
+        },
+        {
+          "v": 3,
+          "name": "Cadastro - Profissão Inválida (vazia)",
+          "method": "POST",
+          "url": "http://localhost:3000/profissional",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "params": [],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"nome\": \"Pedro Costa\",\n  \"idade\": 30,\n  \"profissao\": \"\"\n}"
+          },
+          "auth": null,
+          "testScript": "test(\"Should reject empty profession\", () => {\n  expect([400, 422]).toContain(pw.response.statusCode);\n});",
+          "preRequestScript": null,
+          "tabs": []
+        },
+        {
+          "v": 3,
+          "name": "Cadastro - Múltiplos Profissionais",
+          "method": "POST",
+          "url": "http://localhost:3000/profissional",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "params": [],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"nome\": \"Ana Oliveira\",\n  \"idade\": 35,\n  \"profissao\": \"Advogada\"\n}"
+          },
+          "auth": null,
+          "testScript": "test(\"Successfully register multiple professionals\", () => {\n  expect([200, 201]).toContain(pw.response.statusCode);\n  const body = JSON.parse(pw.response.body);\n  expect(body.nome).toBe(\"Ana Oliveira\");\n});",
+          "preRequestScript": null,
+          "tabs": []
+        }
+      ]
+    },
+    {
+      "v": 3,
+      "name": "Pagamento",
+      "requests": [
+        {
+          "v": 3,
+          "name": "Listar Pagamentos",
+          "method": "GET",
+          "url": "http://localhost:3000/pagamento",
+          "headers": [],
+          "params": [],
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "auth": null,
+          "testScript": "test(\"Status code is 200\", () => {\n  expect(pw.response.statusCode).toBe(200);\n});",
+          "preRequestScript": null,
+          "tabs": []
+        },
+        {
+          "v": 3,
+          "name": "Criar Pagamento",
+          "method": "POST",
+          "url": "http://localhost:3000/pagamento",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "params": [],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"valor\": 100.00,\n  \"descricao\": \"Pagamento de serviço\"\n}"
+          },
+          "auth": null,
+          "testScript": "test(\"Payment created successfully\", () => {\n  expect([200, 201]).toContain(pw.response.statusCode);\n});",
+          "preRequestScript": null,
+          "tabs": []
+        }
+      ]
+    }
+  ],
+  "auth": null,
+  "preRequestScript": null,
+  "testScript": null
+}
