@@ -14,7 +14,7 @@ import { AuthModule } from './auth/auth.module';
       port: parseInt(process.env.DB_PORT || '5432'),
       username: process.env.DB_USER || 'postgres',
       password: process.env.DB_PASSWORD || 'postgres',
-      database: process.env.DB_NAME || 'maridao',
+      database: 'postgres',
       entities: [Usuario],
       synchronize: process.env.NODE_ENV !== 'production',
       logging: true,

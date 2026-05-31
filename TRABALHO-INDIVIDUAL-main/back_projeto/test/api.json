@@ -1,0 +1,54 @@
+[
+  {
+    "v": 12,
+    "name": "API usuarios",
+    "folders": [],
+    "requests": [],
+    "headers": [],
+    "auth": {
+      "authType": "none",
+      "authActive": true
+    },
+    "variables": [],
+    "description": "",
+    "preRequestScript": "",
+    "testScript": ""
+  },
+  {
+    "v": 12,
+    "name": "API usuarios",
+    "folders": [],
+    "requests": [
+      {
+        "v": "17",
+        "endpoint": "http://localhost:3000/usuarios",
+        "name": "Teste usuarios",
+        "params": [],
+        "headers": [],
+        "method": "POST",
+        "auth": {
+          "authType": "inherit",
+          "authActive": true
+        },
+        "preRequestScript": "",
+        "testScript": "",
+        "body": {
+          "contentType": "application/json",
+          "body": "{\n  \"nome\": \"John Doe\",\n  \"email\": \"john2@example.com\",\n  \"usuario\": \"johndoe\",\n  \"senha\": \"SenhaSegura123\"\n}"
+        },
+        "requestVariables": [],
+        "responses": {},
+        "description": null
+      }
+    ],
+    "headers": [],
+    "auth": {
+      "authType": "none",
+      "authActive": true
+    },
+    "variables": [],
+    "description": "",
+    "preRequestScript": "",
+    "testScript": ""
+  }
+]
